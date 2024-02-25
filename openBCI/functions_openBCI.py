@@ -6,20 +6,23 @@ import numpy as np
 
 ######### Manage CYTON #########
 ####################################
-def connect_to_cyton():
+def connect_to_cyton(btype):
     # Set up parameters for Cyton board
 	params = BrainFlowInputParams()
 	params.serial_port = 'COM5'  # Update this with your Cyton board's serial port (you can see it in the openBCI GUI)
 	# Initialize the board instance
-	board_id = BoardIds.CYTON_DAISY_BOARD.value
+	if btype == "cyton":
+		board_id = BoardIds.CYTON_DAISY_BOARD.value
+	else:
+		board_id = BoardIds.SYNTHETIC_BOARD
 	# Connect to the board
 	board = BoardShim(board_id, params)
 	board.prepare_session()
 	return board
 
 # Main function to execute the connection
-def open_board():
-	board = connect_to_cyton()
+def open_board(btype="cyton"):
+	board = connect_to_cyton(btype)
 	# Start streaming data
 	board.start_stream()
 	confirm_connection(board)
@@ -39,8 +42,6 @@ def close_board(board):
 
 ######### Manage DATA #########
 ####################################
-# Step 4: Confirm the connection
-
 def signal_acquisition(board):
 	while True:
 		buffer_data = board.get_board_data()
@@ -49,3 +50,4 @@ def signal_acquisition(board):
 		print("Width of the array:", width)
 		time.sleep(2)
 	return buffer_data
+
