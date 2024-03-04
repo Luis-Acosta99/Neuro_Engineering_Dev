@@ -40,14 +40,3 @@ def close_board(board):
 	board.release_session()
 	print("Session ended")
 
-######### Manage DATA #########
-####################################
-def signal_acquisition(board):
-	while True:
-		buffer_data = board.get_board_data()
-		height, width = buffer_data.shape
-		print("Height of the array:", height)
-		print("Width of the array:", width)
-		time.sleep(2)
-	return buffer_data
-
