@@ -11,11 +11,13 @@ class brainflow_board_object():
         params.serial_port = 'COM5'  # Update this with your Cyton board's serial port (you can see it in the openBCI GUI)
         
         # Initialize the board instance
-        btype = "other"
+        btype = "cyton"
         if btype == "cyton":
             board_id = BoardIds.CYTON_DAISY_BOARD.value
         else:
             board_id = BoardIds.SYNTHETIC_BOARD
+        file_name = "synthetic_data.csv"
+        self.file = open(file_name, "w")
 
         # Connect to the board
         self.board = BoardShim(board_id, params)
@@ -24,7 +26,7 @@ class brainflow_board_object():
         self.board.start_stream()
         self.confirm_connection()
 
-        self.signal = np.empty((1, 16))
+        self.signal = np.empty((1, 1))
 
     def confirm_connection(self):
         if self.board.is_prepared():
@@ -34,13 +36,16 @@ class brainflow_board_object():
 
     def close_board(self):
         # stop streaming and disconnect from the board so a new session can be started without having to turn it on and off.
+        self.file.close()
         self.board.stop_stream()
         self.board.release_session()
         print("Session ended")
 
     def get_signal(self):
         # cyton daisy returns a [32, 125 p/second] nd array 
-        self.signal = self.board.get_board_data()
-        file_name = "synthetic_data.csv"
-        file = open(file_name, "w")
-        np.savetxt(file, self.signal, delimiter=",")
+        self.signal = self.board.get_board_data();
+        np.savetxt(self.file, self.signal, delimiter=",")
+        # single electrode mode
+        print(self.signal.shape)
+        return self.signal[6][-1]
+    
