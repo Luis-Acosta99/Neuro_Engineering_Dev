@@ -16,7 +16,7 @@ class brainflow_board_object():
             board_id = BoardIds.CYTON_DAISY_BOARD.value
         else:
             board_id = BoardIds.SYNTHETIC_BOARD
-        file_name = "synthetic_data.csv"
+        file_name = input("Please enter the file name with which the session will be saved (including extension .csv): \n")#"synthetic_data.csv"
         self.file = open(file_name, "w")
 
         # Connect to the board
@@ -49,7 +49,7 @@ class brainflow_board_object():
         # print statement for debugging purposes
         #print(self.session_samples,self.signal.shape)
 
-        return (self.signal.shape[0] ,self.signal[-1][6:8])
+        return (self.signal.shape[0] ,self.signal[-1][1:9])
         '''{'accel_channels': [17, 18, 19],
             'analog_channels': [27, 28, 29],
             'ecg_channels': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
