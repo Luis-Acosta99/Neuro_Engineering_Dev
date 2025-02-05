@@ -20,15 +20,5 @@ OR3,orientation,"If you are standing on the circle, facing towards the hexagon, 
 OR4,orientation,"If you are standing on the hexagon, facing towards the triangle, what vector best describes the position of the star relative to you?",b,,OR4.png
 OR5,orientation,"If you are standing on the circle, facing towards the hexagon, what vector best describes the position of the square relative to you?",c,,OR5.png
 OR6,orientation,"If you are standing on the circle, facing towards the triangle, what vector best describes the position of the hexagon relative to you?",d,,OR6.png
-M1,matrices,"In the structure shown, what axis would you average across to get the average power per electrode per subject?",y,,M1.png
-M2,matrices,"In the structure shown, what axis would you count across to find out how many subjects were studied?",z,,M1.png
-M3,matrices,"In the structure shown, what axis would you average across to get the average power per electrode per subject?",z,,M2.png
-M4,matrices,"In the structure shown, what axis would you count across to find out how many subjects were studied?",y,,M2.png
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
+M1,matrices,"In a structure with the shape {{subject : {{signal: {{ raw, power }} , time, label}} }}",,,M1.png
+
