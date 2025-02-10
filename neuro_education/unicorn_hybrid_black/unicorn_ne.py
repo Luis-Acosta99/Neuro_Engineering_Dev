@@ -1,6 +1,9 @@
 import sys
+import time
 # path to where the python api is stored on your local machine
 sys.path.append( "C:/Users/luisf/Documents/gtec/Unicorn Suite/Hybrid Black/Unicorn Python/Lib")
+
+
 import UnicornPy
 import struct
 
@@ -11,7 +14,7 @@ class unicorn_device():
         self.TestsignaleEnabled = False;
         self.FrameLength = 1;
         self.AcquisitionDurationInSeconds = 10;
-        self.DataFile = f"{file_name}.csv";
+        self.DataFile = f"{file_name}eeg.csv";
         pass
 
     def get_port_id(self,device_number=0):
@@ -45,7 +48,7 @@ class unicorn_device():
         print("Connected to '%s'." %self.deviceId)
         print()
 
-    def unicorn_stream(self):
+    def unicorn_stream(self, start_time):
         # Create a file to store data.
         file = open(self.DataFile, "w",encoding="utf-8")
         
@@ -88,7 +91,10 @@ class unicorn_device():
 
                 # Convert bytearray to a list of numbers (assuming float32 data format)
                 data_values = list(struct.unpack(f"{len(receiveBuffer)//4}f", receiveBuffer))
-
+                
+                # Add the fixed value to the list of data values
+                data_values.append(time.time() - start_time.value )  # Append the fixed value (you can replace this with a dynamic value if needed)
+                
                 # Convert to UTF-8 friendly format (e.g., CSV or space-separated values)
                 file.write(",".join(map(str, data_values)) + "\n")  # Write as CSV
 
@@ -120,12 +126,14 @@ class unicorn_device():
         del self.device
         print("Disconnected from Unicorn")
 
-def unicorn_process(subject_id = "subject1", device_number=0):
-    unicorn_tec = unicorn_device(subject_id)
+def unicorn_process(subject_id, results_path, start_time, device_number=0):
+    unicorn_tec = unicorn_device(file_name= f'{results_path}/{subject_id}/')
     unicorn_tec.get_port_id(device_number)
     unicorn_tec.unicorn_connect()
-    unicorn_tec.unicorn_stream()
+
+    while start_time.value == 0:
+        pass  # Wait for synchronization
+
+    unicorn_tec.unicorn_stream(start_time)
     unicorn_tec.unicorn_disconnect()
 
-if __name__ == '__main__':
-    unicorn_process()

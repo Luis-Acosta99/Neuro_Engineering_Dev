@@ -2,13 +2,14 @@ from psychopy import visual, core, gui, event
 import pandas as pd
 import random
 import os
+import time
 
 # --- Helper Functions ---
 def log_message(message):
     """Helper function to log messages for debugging."""
     print(f"[DEBUG]: {message}")
 
-def save_data(data, participant_id, module_name):
+def save_data(data, subject_id,results_path, module_name):
     """Saves the collected data to a CSV file for a specific module."""
     if not data:
         log_message(f"No data to save for module: {module_name}")
@@ -17,7 +18,7 @@ def save_data(data, participant_id, module_name):
     if not os.path.exists('data'):
         os.makedirs('data')
     
-    filename = f'data/{participant_id}_{module_name}_responses.csv'
+    filename = f'{results_path}/{subject_id}/{module_name}_responses.csv'
     df = pd.DataFrame(data)
     df.to_csv(filename, index=False)
     log_message(f"Data saved to '{filename}'.")
@@ -35,7 +36,7 @@ def display_image(win, image_path, duration):
     except Exception as e:
         log_message(f"Error in 'display_image': {e}")
 
-def display_questions(win, duration, cycle_number, cycle_type, question_list):
+def display_questions(win, duration, cycle_number, cycle_type, question_list, global_start_time):
     """Displays arithmetic questions for a given cycle."""
     start_time = core.getTime()
     responses = []
@@ -67,7 +68,8 @@ def display_questions(win, duration, cycle_number, cycle_type, question_list):
                     responses.append({
                         'ID': question['id'],
                         'Correct_Answer': question['c'],
-                        'Participant_Answer': participant_answer
+                        'Participant_Answer': participant_answer,
+                        'Global_time':time.time() - global_start_time.value
                     })
                     break
                 elif key == 'escape':  # Exit the experiment
@@ -101,7 +103,7 @@ def take_break(win, duration):
     win.flip()
     core.wait(duration)
 
-def display_programming_questions(win, duration, question_list):
+def display_programming_questions(win, duration, question_list,global_start_time):
     """Displays programming-related questions with a slider for rating."""
     start_time = core.getTime()
     responses = []
@@ -130,8 +132,9 @@ def display_programming_questions(win, duration, question_list):
             if slider.getRating() is not None:
                 responses.append({
                     'ID': question['id'],
-                    'Rating': slider.getRating()
-                })
+                    'Rating': slider.getRating(),
+                    'Global_time':time.time() - global_start_time.value
+                    })
                 break  # Once the participant responds, break out of the loop for this question
 
             # Check if time is up for the current question
@@ -141,7 +144,7 @@ def display_programming_questions(win, duration, question_list):
 
     return responses
 
-def display_question_with_image_and_buttons(win, image_path, question_text, duration, question_id):
+def display_question_with_image_and_buttons(win, image_path, question_text, duration, question_id, global_start_time):
     """Displays an image and a question with clickable buttons, with click debouncing."""
     # Ensure the image retains its aspect ratio
     image = visual.ImageStim(win, image=image_path, pos=(0, 0), size=(0.6, 0.6), units="height")
@@ -203,11 +206,12 @@ def display_question_with_image_and_buttons(win, image_path, question_text, dura
     if participant_answer:
         responses.append({
             'ID': question_id,
-            'Participant_Answer': participant_answer
-        })
+            'Participant_Answer': participant_answer,
+            'Global_time':time.time() - global_start_time.value
+                    })
     return responses
 
-def arithmetic_questions_flow(win, math_csv, num_cycles, trial_duration, break_duration, cycle_types, participant_id):
+def arithmetic_questions_flow(win, math_csv, num_cycles, trial_duration, break_duration, cycle_types, global_start_time):
     """Handles the flow of displaying arithmetic questions."""
     responses = []
     if os.path.exists(math_csv):
@@ -217,7 +221,7 @@ def arithmetic_questions_flow(win, math_csv, num_cycles, trial_duration, break_d
         for cycle in range(num_cycles):
             cycle_type = cycle_types[cycle]  # Determine the cycle type
             log_message(f"Starting cycle {cycle + 1} with type '{cycle_type}'.")
-            cycle_responses = display_questions(win, trial_duration, cycle + 1, cycle_type, questions_list)
+            cycle_responses = display_questions(win, trial_duration, cycle + 1, cycle_type, questions_list, global_start_time)
             responses.extend(cycle_responses)
 
             if cycle < num_cycles - 1:  # Break after each cycle except the last one
@@ -226,18 +230,18 @@ def arithmetic_questions_flow(win, math_csv, num_cycles, trial_duration, break_d
         log_message(f"Arithmetic questions CSV not found: {math_csv}")
     return responses
 
-def programming_questions_flow(win, programming_csv, duration):
+def programming_questions_flow(win, programming_csv, duration,global_start_time):
     """Handles the flow of displaying programming questions."""
     responses = []
     if os.path.exists(programming_csv):
         programming_df = pd.read_csv(programming_csv)
         programming_questions = programming_df.to_dict(orient='records')
-        responses = display_programming_questions(win, duration, programming_questions)
+        responses = display_programming_questions(win, duration, programming_questions,global_start_time)
     else:
         log_message(f"Programming CSV not found: {programming_csv}")
     return responses
 
-def spatial_abilities_flow(win, image_bank_path, sa_csv, trial_duration):
+def spatial_abilities_flow(win, image_bank_path, sa_csv, trial_duration,global_start_time):
     """Handles the flow of displaying spatial abilities questions."""
     responses = []
     if os.path.exists(sa_csv):
@@ -249,7 +253,7 @@ def spatial_abilities_flow(win, image_bank_path, sa_csv, trial_duration):
         while core.getTime() - start_time < trial_duration and questions_list:
             question = questions_list.pop(0)  # Get the next question
             image_path = image_bank_path + question['image-name']
-            response = display_question_with_image_and_buttons(win, image_path, question['question'], trial_duration, question['id'])
+            response = display_question_with_image_and_buttons(win, image_path, question['question'], trial_duration, question['id'],global_start_time)
             responses.extend(response)
 
             if not questions_list:  # All questions answered, break out of the loop
@@ -258,30 +262,35 @@ def spatial_abilities_flow(win, image_bank_path, sa_csv, trial_duration):
         log_message(f"SA questions CSV not found: {sa_csv}")
     return responses
 
-def psychopy_process():
+def psychopy_process(subject_id, resources_path, results_path, start_time):
     IMAGE_DURATION = 2  # Initial image duration (seconds) BASAL
     TRIAL_DURATION_ARITHMETIC = 5  # Duration for each arithmetic cycle (seconds)
     BREAK_DURATION = 2  # Duration of the break between arithmetic cycles (seconds)
     NUM_CYCLES = 4  # Number of cycles arithmetic cycles
-    MATH_QUESTION_CSV = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/math_test.csv'  # Path to the arithmetic QUESTIONS
-    DISPLAY_IMAGE_PATH = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
     CYCLE_TYPES = ['add', 'substraction', 'multiplication', 'division']  # Order of question types for Arithmetic cycles
-    PROGRAMMING_CSV = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/coding_questions.csv'  # Path to the programming questions CSV file
     PROGRAMMING_DURATION = 15  # Duration for the programming cycle (seconds)
     TRIAL_DURATION_SA = 15  # Duration for each trial cycle (seconds) for Spatial abilities cycle 
-    SA_QUESTION_CSV = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/sa.csv'  # Path to the SA questions CSV
-    image_bank_path = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/image_bank/1x/'
+    MATH_QUESTION_CSV = f'{resources_path}math_test.csv'  # Path to the arithmetic QUESTIONS
+    DISPLAY_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+    SA_QUESTION_CSV = f'{resources_path}sa.csv'  # Path to the SA questions CSV
+    PROGRAMMING_CSV = f'{resources_path}coding_questions.csv'  # Path to the programming questions CSV file
+    image_bank_path = f'{resources_path}image_bank/1x/'
 
-    info = {'Participant ID': ''}
+    '''info = {'Participant ID': ''}
     dlg = gui.DlgFromDict(info)
     if not dlg.OK or not info['Participant ID']:
         core.quit()
-    participant_id = info['Participant ID']
+    participant_id = info['Participant ID']'''
+
+    while start_time.value == 0:
+        pass  # Wait for synchronization
 
     win = visual.Window(fullscr=True, size=(1440, 900), color='black') #window specifications
     all_arithmetic_responses = []  # To store all arithmetic responses
     programming_responses = []     # To store all programming responses
     sa_responses = []  # To store all SA responses
+
+    
 
     try:
         log_message("Starting experiment.")
@@ -289,22 +298,29 @@ def psychopy_process():
         # Step 1: Display initial image BASAL
         display_image(win, DISPLAY_IMAGE_PATH, IMAGE_DURATION)
         # Step 2: arithmetic cycle display function
-        all_arithmetic_responses = arithmetic_questions_flow(win, MATH_QUESTION_CSV, NUM_CYCLES, TRIAL_DURATION_ARITHMETIC, BREAK_DURATION, CYCLE_TYPES, participant_id)
+        all_arithmetic_responses = arithmetic_questions_flow(win, MATH_QUESTION_CSV, 
+                                                             NUM_CYCLES, TRIAL_DURATION_ARITHMETIC, 
+                                                             BREAK_DURATION, CYCLE_TYPES,
+                                                             start_time)
         # Step 3: programming cycle display function
-        programming_responses = programming_questions_flow(win, PROGRAMMING_CSV, PROGRAMMING_DURATION)
+        programming_responses = programming_questions_flow(win, 
+                                                           PROGRAMMING_CSV, 
+                                                           PROGRAMMING_DURATION,
+                                                           start_time)
         # Step 4: programming cycle display function
-        sa_responses = spatial_abilities_flow(win, image_bank_path, SA_QUESTION_CSV, TRIAL_DURATION_SA)
+        sa_responses = spatial_abilities_flow(win, 
+                                              image_bank_path, 
+                                              SA_QUESTION_CSV, 
+                                              TRIAL_DURATION_SA,
+                                              start_time)
 
         # Save all responses
-        save_data(all_arithmetic_responses, participant_id, 'arithmetic')
-        save_data(programming_responses, participant_id, 'programming')
-        save_data(sa_responses, participant_id, "spatial_abilities")
+        save_data(all_arithmetic_responses, subject_id,results_path,'arithmetic')
+        save_data(programming_responses, subject_id,results_path, 'programming')
+        save_data(sa_responses, subject_id,results_path, "spatial_abilities")
     except Exception as e:
         log_message(f"Unhandled error: {e}")
     finally:
         win.close()
         core.quit()
 
-# --- Main Script ---
-if __name__ == '__main__':
-    psychopy_process()

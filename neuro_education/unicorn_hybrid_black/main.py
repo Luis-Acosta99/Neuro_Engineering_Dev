@@ -1,6 +1,6 @@
 from multiprocessing import Process
 import os
-import unicorn_connect as up
+import unicorn_ne as up
 from psychopy import visual, core, gui, event
 import pandas as pd
 import random
