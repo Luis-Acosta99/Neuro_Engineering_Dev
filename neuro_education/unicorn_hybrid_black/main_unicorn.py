@@ -1,20 +1,20 @@
 import sys
 import time
+import csv
 # path to where the python api is stored on your local machine
 sys.path.append( "C:/Users/luisf/Documents/gtec/Unicorn Suite/Hybrid Black/Unicorn Python/Lib")
-
 
 import UnicornPy
 import struct
 
 class unicorn_device():
-    def __init__(self, file_name:str):
+    def __init__(self, path:str):
         # Specifications for the data acquisition.
         #-------------------------------------------------------------------------------------
         self.TestsignaleEnabled = False;
         self.FrameLength = 1;
-        self.AcquisitionDurationInSeconds = 10;
-        self.DataFile = f"{file_name}eeg.csv";
+        self.path = path;
+        self.DataFile = f"{path}eeg.csv";
         pass
 
     def get_port_id(self,device_number=0):
@@ -33,11 +33,8 @@ class unicorn_device():
 
         # Request device selection.
         print()
-        deviceID = int(device_number)
-        if deviceID < 0 or deviceID > len(deviceList):
-            raise IndexError('The selected device ID is not valid.')
-        
-        self.deviceId = deviceList[deviceID]
+        print(deviceList[device_number])
+        self.deviceId = deviceList[device_number]
     
     def unicorn_connect(self):
         # Open selected device.
@@ -50,7 +47,9 @@ class unicorn_device():
 
     def unicorn_stream(self, start_time):
         # Create a file to store data.
-        file = open(self.DataFile, "w",encoding="utf-8")
+        eeg_results = open(self.DataFile, "w",encoding="utf-8")
+        eeg_results.close()
+        eeg_results = open(self.DataFile, "a",encoding="utf-8")
         
         # Initialize acquisition members.
         #-------------------------------------------------------------------------------------
@@ -62,7 +61,6 @@ class unicorn_device():
         print("Sampling Rate: %i Hz" %UnicornPy.SamplingRate)
         print("Frame Length: %i" %self.FrameLength)
         print("Number Of Acquired Channels: %i" %numberOfAcquiredChannels)
-        print("Data Acquisition Length: %i s" %self.AcquisitionDurationInSeconds)
         print()
 
         # Allocate memory for the acquisition buffer.
@@ -74,34 +72,29 @@ class unicorn_device():
             #-------------------------------------------------------------------------------------
             self.device.StartAcquisition(self.TestsignaleEnabled)
             print("Data acquisition started.")
-
-            # Calculate number of get data calls.
-            numberOfGetDataCalls = int(self.AcquisitionDurationInSeconds * UnicornPy.SamplingRate / self.FrameLength);
         
-            # Limit console update rate to max. 25Hz or slower to prevent acquisition timing issues.                   
-            consoleUpdateRate = int((UnicornPy.SamplingRate / self.FrameLength) / 25.0);
-            if consoleUpdateRate == 0:
-                consoleUpdateRate = 1
 
             # Acquisition loop.
             #-------------------------------------------------------------------------------------
-            for i in range (0,numberOfGetDataCalls):
+            psychopy_has_closed = 0
+
+            while psychopy_has_closed == 0:
                 # Receives the configured number of samples from the Unicorn device and writes it to the acquisition buffer.
                 self.device.GetData(self.FrameLength,receiveBuffer,self.receiveBufferBufferLength)
 
                 # Convert bytearray to a list of numbers (assuming float32 data format)
                 data_values = list(struct.unpack(f"{len(receiveBuffer)//4}f", receiveBuffer))
-                
-                # Add the fixed value to the list of data values
-                data_values.append(time.time() - start_time.value )  # Append the fixed value (you can replace this with a dynamic value if needed)
-                
+
                 # Convert to UTF-8 friendly format (e.g., CSV or space-separated values)
-                file.write(",".join(map(str, data_values)) + "\n")  # Write as CSV
-
-                # Update console to indicate that the data acquisition is running.
-                if i % consoleUpdateRate == 0:
-                    print('.',end='',flush=True)
-
+                data_reshaped = [data_values[i:i + numberOfAcquiredChannels] for i in range(0, len(data_values), numberOfAcquiredChannels)]
+                data_reshaped = [row + [time.time() - start_time.value] for row in data_reshaped]
+                for row in data_reshaped:
+                    eeg_results.write(",".join(map(str, row)) + "\n")  # Write as CSV
+                
+                psychopy_flag_file =  open("psychopy closed.txt", "r")
+                psychopy_has_closed = int(psychopy_flag_file.read().strip())
+                                
+                
             # Stop data acquisition.
             #-------------------------------------------------------------------------------------
             self.device.StopAcquisition();
@@ -117,7 +110,7 @@ class unicorn_device():
             del receiveBuffer
 
             #close file
-            file.close()
+            eeg_results.close()
             print("File correctly written")
 
     def unicorn_disconnect(self):
@@ -126,9 +119,24 @@ class unicorn_device():
         del self.device
         print("Disconnected from Unicorn")
 
-def unicorn_process(subject_id, results_path, start_time, device_number=0):
-    unicorn_tec = unicorn_device(file_name= f'{results_path}/{subject_id}/')
-    unicorn_tec.get_port_id(device_number)
+    def get_psychopy_status(self):
+        status_file = open("psychopy closed.txt", "r")
+        try:
+            status = int(status_file.read().strip())
+        except:
+            status = 0
+            print("EEG STOPED UPON EMPTY FLAG")
+        return status
+
+        
+
+def unicorn_process(subject_id, results_path, start_time, debuging = False):
+
+    if debuging == True:
+        exit()
+
+    unicorn_tec = unicorn_device(path= f'{results_path}/{subject_id}/')
+    unicorn_tec.get_port_id()
     unicorn_tec.unicorn_connect()
 
     while start_time.value == 0:

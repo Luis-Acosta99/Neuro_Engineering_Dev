@@ -1,6 +1,6 @@
 import multiprocessing as mup
-import unicorn_ne as upc
-import psychopy_ne as psy_ui
+import main_unicorn as upc
+import main_psychopy as psy_ui
 import os
 import time
 
@@ -11,16 +11,15 @@ import time
 #     https://www.python.org/ftp/python/3.6.8/
 # 3) get the local direction to this python version and put it in the venv creating step
 #  C:\Users\luisf\AppData\Local\Programs\Python\Python39\python.exe -m venv venv39
-#  C:\Users\luisf\AppData\Local\Programs\Python\Python36\python.exe -m venv venv36
 # 4) pip install psychopy
 
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 # --- Parameters ---
-subject_id = "test_subject"
+subject_id = "test_subject_ac_demo"
 resources_path = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/'  # Path to the arithmetic QUESTIONS
 results_path = 'C:/Users/luisf/git_projects/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/results/' # Path to save the data
-execution_mode = 'dev' # 'dev' or 'prod'
+execution_mode = 'demo' # 'dev' or 'prod'
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
@@ -40,10 +39,19 @@ def check_path(path: str, overwrite: bool):
 
 if __name__ == '__main__':
     
-    try:
-        check_path(f'{results_path}/{subject_id}/', overwrite=(execution_mode=='dev'))
-    except FileExistsError as e:
-        print(e)
+    with open("psychopy closed.txt", "w") as file:
+            file.write("0")
+    
+    if (execution_mode == "dev") | (execution_mode == "prod") | (execution_mode == "demo"):
+        try:
+            check_path(f'{results_path}/{subject_id}/', overwrite=(execution_mode=='dev'))
+        except FileExistsError as e:
+            print(e)
+            exit(1)
+    else:
+        print("ERROR: PLEASE USE A VALID EXECUTION TYPE")
+        with open("psychopy closed.txt", "w") as psychopy_flag_file:
+            psychopy_flag_file.write("1")
         exit(1)
 
     # Create a shared value for synchronized start time
@@ -56,7 +64,8 @@ if __name__ == '__main__':
     p2 = mup.Process(target=psy_ui.psychopy_process, args=(subject_id,
                                                            resources_path,
                                                            results_path,
-                                                           start_time))
+                                                           start_time,
+                                                           execution_mode))
     
     p1.start()
     p2.start()
