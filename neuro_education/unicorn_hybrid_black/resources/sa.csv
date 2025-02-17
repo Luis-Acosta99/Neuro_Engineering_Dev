@@ -1,34 +1,22 @@
 ﻿id,type,question,correct_a,correct_b,image-name
-MR1,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",a,c,MR1.png
-MR2,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",a,d,MR2.png
-MR3,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",b,d,MR3.png
-MR4,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",b,c,MR4.png
-MR5,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",a,c,MR5.png
-MR6,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",a,d,MR6.png
-MR7,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",b,d,MR7.png
-MR8,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",b,c,MR8.png
-MR9,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",b,d,MR9.png
-MR10,mental_rotation,"Which of the following pictures are the same as the original, seen from a diferent angle?",a,d,MR10.png
-PR1,pattern_recognition,Which of the following options contains the original figure?,a,,PR1.png
-PR2,pattern_recognition,Which of the following options contains the original figure?,c,,PR2.png
-PR3,pattern_recognition,Which of the following options contains the original figure?,b,,PR3.png
-PR4,pattern_recognition,Which of the following options contains the original figure?,d,,PR4.png
-PR5,pattern_recognition,Which of the following options contains the original figure?,b,,PR5.png
-OR1,orientation,"If you are standing on the star, facing towards the square, what vector best describes the position of the hexagon relative to you?",b,,OR1.png
-OR2,orientation,"If you are standing on the triangle, facing towards the star, what vector best describes the position of the hexagon relative to you?",a,,OR2.png
-OR3,orientation,"If you are standing on the circle, facing towards the hexagon, what vector best describes the position of the hexagon relative to you?",d,,OR3.png
-OR4,orientation,"If you are standing on the hexagon, facing towards the triangle, what vector best describes the position of the star relative to you?",b,,OR4.png
-OR5,orientation,"If you are standing on the circle, facing towards the hexagon, what vector best describes the position of the square relative to you?",c,,OR5.png
-OR6,orientation,"If you are standing on the circle, facing towards the triangle, what vector best describes the position of the hexagon relative to you?",d,,OR6.png
-M1,matrices,"In the structure shown, what axis would you average across to get the average power per electrode per subject?",y,,M1.png
-M2,matrices,"In the structure shown, what axis would you count across to find out how many subjects were studied?",z,,M1.png
-M3,matrices,"In the structure shown, what axis would you average across to get the average power per electrode per subject?",z,,M2.png
-M4,matrices,"In the structure shown, what axis would you count across to find out how many subjects were studied?",y,,M2.png
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
+MR1,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",a,c,MR1.png
+MR2,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",a,d,MR2.png
+MR3,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",b,d,MR3.png
+MR4,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",b,c,MR4.png
+MR5,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",a,c,MR5.png
+MR6,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",a,d,MR6.png
+MR7,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",b,d,MR7.png
+MR8,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",b,c,MR8.png
+MR9,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",b,d,MR9.png
+MR10,mental_rotation,"Cual de las siguientes imagenes es la misma que la original, pero vista desde otro angulo?",a,d,MR10.png
+PR1,pattern_recognition,Cual de las siguientes imagenes tiene embebida la figura original?,a,,PR1.png
+PR2,pattern_recognition,Cual de las siguientes imagenes tiene embebida la figura original?,c,,PR2.png
+PR3,pattern_recognition,Cual de las siguientes imagenes tiene embebida la figura original?,b,,PR3.png
+PR4,pattern_recognition,Cual de las siguientes imagenes tiene embebida la figura original?,d,,PR4.png
+PR5,pattern_recognition,Cual de las siguientes imagenes tiene embebida la figura original?,b,,PR5.png
+OR1,orientation,"Si estás parado en la estrella, volteando hacia el cuadrado, que vector describe la posición del hexagono, relativo a tu posición?",b,,OR1.png
+OR2,orientation,"Si estaás parado en el triangulo, volteando hacia la estrella, que vector describe la posición del hexagono, relativo a tu posición?",a,,OR2.png
+OR3,orientation,"Si estás parado en el circulo, volteando hacia el hexagono, que vector describe la posición del hexagono, relativo a tu posición?",d,,OR3.png
+OR4,orientation,"Si estás parado en el hexagono, volteando hacia el triangulo, que vector describe la posición de la estrella, relativo a tu posición?",b,,OR4.png
+OR5,orientation,"Si estás parado en el circulo, volteando hacia el hexagono, que vector describe la posición del cuadrado, relativo a tu posición?",c,,OR5.png
+OR6,orientation,"Si estas parado en el circulo, volteando hacia el triangulo, que vector describe la posicion del hexagono, relativo a tu posición?",d,,OR6.png
