@@ -280,13 +280,14 @@ def psychopy_process(subject_id, resources_path, results_path, start_time, execu
         PROGRAMMING_DURATION = 5  # Duration for the programming cycle (seconds)
         TRIAL_DURATION_SA = 5  # Duration for each trial cycle (seconds) for Spatial abilities cycle 
         MATH_QUESTION_CSV = f'{resources_path}math_test.csv'  # Path to the arithmetic QUESTIONS
-        DISPLAY_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+        BASAL_1_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+        BASAL_2_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal_ojos_abiertos.png'  # Path to the initial image BASAL
         SA_QUESTION_CSV = f'{resources_path}sa.csv'  # Path to the SA questions CSV
         PROGRAMMING_CSV = f'{resources_path}coding_questions.csv'  # Path to the programming questions CSV file
         image_bank_path = f'{resources_path}image_bank/1x/'
         interstage_break = 3
     elif execution_mode =="prod":
-        IMAGE_DURATION = 120 # Initial image duration (seconds) BASAL
+        IMAGE_DURATION = 60 # Initial image duration (seconds) BASAL
         TRIAL_DURATION_ARITHMETIC = 120  #120  Duration for each arithmetic cycle (seconds)
         BREAK_DURATION = 30  # Duration of the break between arithmetic cycles (seconds)
         NUM_CYCLES = 4  # Number of cycles arithmetic cycles
@@ -294,7 +295,8 @@ def psychopy_process(subject_id, resources_path, results_path, start_time, execu
         PROGRAMMING_DURATION = 200  # Duration for the programming cycle (seconds)
         TRIAL_DURATION_SA = 30  # Duration for each trial cycle (seconds) for Spatial abilities cycle 
         MATH_QUESTION_CSV = f'{resources_path}math_test.csv'  # Path to the arithmetic QUESTIONS
-        DISPLAY_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+        BASAL_1_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+        BASAL_2_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal_ojos_abiertos.png'  # Path to the initial image BASAL        
         SA_QUESTION_CSV = f'{resources_path}sa.csv'  # Path to the SA questions CSV
         PROGRAMMING_CSV = f'{resources_path}coding_questions.csv'  # Path to the programming questions CSV file
         image_bank_path = f'{resources_path}image_bank/1x/'
@@ -308,7 +310,8 @@ def psychopy_process(subject_id, resources_path, results_path, start_time, execu
         PROGRAMMING_DURATION = 20  # Duration for the programming cycle (seconds)
         TRIAL_DURATION_SA = 20  # Duration for each trial cycle (seconds) for Spatial abilities cycle 
         MATH_QUESTION_CSV = f'{resources_path}math_test.csv'  # Path to the arithmetic QUESTIONS
-        DISPLAY_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+        BASAL_1_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
+        BASAL_2_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal_ojos_abiertos.png'  # Path to the initial image BASAL
         SA_QUESTION_CSV = f'{resources_path}sa.csv'  # Path to the SA questions CSV
         PROGRAMMING_CSV = f'{resources_path}coding_questions.csv'  # Path to the programming questions CSV file
         image_bank_path = f'{resources_path}image_bank/1x/'
@@ -335,7 +338,8 @@ def psychopy_process(subject_id, resources_path, results_path, start_time, execu
         log_message("Starting experiment.")
 
         # Step 1: Display initial image BASAL
-        display_image(win, DISPLAY_IMAGE_PATH, IMAGE_DURATION)
+        display_image(win, BASAL_1_IMAGE_PATH, IMAGE_DURATION)
+        display_image(win, BASAL_2_IMAGE_PATH, IMAGE_DURATION)
         # Step 2: arithmetic cycle display function
         all_arithmetic_responses = arithmetic_questions_flow(win, MATH_QUESTION_CSV, 
                                                              NUM_CYCLES, TRIAL_DURATION_ARITHMETIC, 
