@@ -105,8 +105,8 @@ def take_break(win, duration):
     win.flip()
     core.wait(duration)
 
-def display_programming_questions(win, duration, question_list,global_start_time):
-    """Displays programming-related questions with a slider for rating."""
+"""def display_programming_questions(win, duration, question_list,global_start_time):
+    # Displays programming-related questions with a slider for rating.
     start_time = core.getTime()
     responses = []
 
@@ -147,6 +147,67 @@ def display_programming_questions(win, duration, question_list,global_start_time
                 log_message("Time expired for the programming cycle.")
                 break
 
+    return responses"""
+
+def display_question_with_text_options(win, duration, question_id, question_text, question_options, global_start_time):
+    """Displays a question with four text options as clickable buttons."""
+    
+    # Question Text
+    question = visual.TextStim(win, text=question_text, pos=(0, 0.70), color='white', height=0.08, wrapWidth=1.5)
+    
+    # Button properties
+    button_color = 'lightgray'
+    clicked_color = 'LightSkyBlue'
+    button_positions = [(-0.0, 0.3), (-0.0, 0.0), (-0.0, -0.3), (-0.0, -0.6)]
+    
+    # Create buttons and labels for options A, B, C, D
+    options = question_options
+    buttons = []
+    labels = []
+    for i, (pos, option) in enumerate(zip(button_positions, options)):
+        buttons.append(visual.Rect(win, width=1.2, height=0.15, pos=pos, fillColor=button_color))
+        labels.append(visual.TextStim(win, text=option, pos=pos, color='black', height=0.05, wrapWidth=1))
+    
+    # Mouse object for detecting clicks
+    mouse = event.Mouse(visible=True, win=win)
+    participant_answer = None
+    responses = []
+    
+    start_time = core.getTime()
+    while core.getTime() - start_time < duration:
+        # Draw all elements
+        question.draw()
+        for button, label in zip(buttons, labels):
+            button.draw()
+            label.draw()
+        win.flip()
+        q_appearance = time.time() - global_start_time.value
+        
+        # Check for mouse clicks
+        for i, button in enumerate(buttons):
+            if mouse.isPressedIn(button):
+                participant_answer = chr(65 + i)  # Convert index 0-3 to A-D
+                buttons[i].fillColor = clicked_color  # Change button color
+                question.draw()
+                for b, l in zip(buttons, labels):
+                    b.draw()
+                    l.draw()
+                win.flip()  # Force update
+                core.wait(1)  # Debounce delay
+                break
+        
+        if participant_answer:
+            break
+    
+    if participant_answer:
+        responses.append({
+            'ID': question_id,
+            'Participant_Answer': participant_answer,
+            'Global_time': time.time() - global_start_time.value,
+            'Question_appearance': q_appearance,
+            'Answer_time': time.time() - global_start_time.value
+        })
+    
     return responses
 
 def display_question_with_image_and_buttons(win, image_path, question_text, duration, question_id, global_start_time):
@@ -157,18 +218,18 @@ def display_question_with_image_and_buttons(win, image_path, question_text, dura
     # Question Text
     question = visual.TextStim(win, text=question_text, pos=(0, 0.70), color='white', height=0.08, wrapWidth=1.5)
 
-    # Buttons (smaller size, all light-colored)
+    # Button properties
     button_color = 'lightgray'
-    button_a = visual.Rect(win, width=0.2, height=0.1, pos=(-0.8, -0.8), fillColor=button_color)
-    button_b = visual.Rect(win, width=0.2, height=0.1, pos=(-0.4, -0.8), fillColor=button_color)
-    button_c = visual.Rect(win, width=0.2, height=0.1, pos=(0.4, -0.8), fillColor=button_color)
-    button_d = visual.Rect(win, width=0.2, height=0.1, pos=(0.8, -0.8), fillColor=button_color)
+    clicked_color = 'LightSkyBlue'
+    button_positions = [(-0.45, -0.8), (-0.15, -0.8), (0.15, -0.8), (0.45, -0.8)]
     
-    # Button labels
-    text_a = visual.TextStim(win, text="A", pos=(-0.8, -0.8), color='black', height=0.04)
-    text_b = visual.TextStim(win, text="B", pos=(-0.4, -0.8), color='black', height=0.04)
-    text_c = visual.TextStim(win, text="C", pos=(0.4, -0.8), color='black', height=0.04)
-    text_d = visual.TextStim(win, text="D", pos=(0.8, -0.8), color='black', height=0.04)
+    # Create buttons and labels for options A, B, C, D
+    buttons = []
+    labels = []
+    options = ['A', 'B', 'C', 'D']
+    for i, (pos, option) in enumerate(zip(button_positions, options)):
+        buttons.append(visual.Rect(win, width=0.2, height=0.1, pos=pos, fillColor=button_color))
+        labels.append(visual.TextStim(win, text=option, pos=pos, color='black', height=0.04, wrapWidth=1))
 
     # Mouse object for detecting clicks
     mouse = event.Mouse(visible=True, win=win)
@@ -180,33 +241,27 @@ def display_question_with_image_and_buttons(win, image_path, question_text, dura
         # Draw all elements
         image.draw()
         question.draw()
-        button_a.draw()
-        button_b.draw()
-        button_c.draw()
-        button_d.draw()
-        text_a.draw()
-        text_b.draw()
-        text_c.draw()
-        text_d.draw()
+        for button, label in zip(buttons, labels):
+            button.draw()
+            label.draw()
         win.flip()
         q_appearance = time.time() - global_start_time.value
 
         # Check for mouse clicks
-        if mouse.isPressedIn(button_a):
-            participant_answer = 'A'
-            core.wait(0.5)  # Debounce delay
-            break
-        elif mouse.isPressedIn(button_b):
-            participant_answer = 'B'
-            core.wait(0.5)  # Debounce delay
-            break
-        elif mouse.isPressedIn(button_c):
-            participant_answer = 'C'
-            core.wait(0.5)  # Debounce delay
-            break
-        elif mouse.isPressedIn(button_d):
-            participant_answer = 'D'
-            core.wait(0.5)  # Debounce delay
+        for i, button in enumerate(buttons):
+            if mouse.isPressedIn(button):
+                participant_answer = chr(65 + i)  # Convert index 0-3 to A-D
+                buttons[i].fillColor = clicked_color  # Change button color
+                image.draw()
+                question.draw()
+                for b, l in zip(buttons, labels):
+                    b.draw()
+                    l.draw()
+                win.flip()  # Force update
+                core.wait(1)  # Debounce delay
+                break
+        
+        if participant_answer:
             break
 
     if participant_answer:
@@ -238,15 +293,27 @@ def arithmetic_questions_flow(win, math_csv, num_cycles, trial_duration, break_d
         log_message(f"Arithmetic questions CSV not found: {math_csv}")
     return responses
 
-def programming_questions_flow(win, programming_csv, duration,global_start_time):
-    """Handles the flow of displaying programming questions."""
+def programming_questions_flow(win, coding_csv, trial_duration,global_start_time):
+    """Handles the flow of displaying spatial abilities questions."""
     responses = []
-    if os.path.exists(programming_csv):
-        programming_df = pd.read_csv(programming_csv)
-        programming_questions = programming_df.to_dict(orient='records')
-        responses = display_programming_questions(win, duration, programming_questions,global_start_time)
+    if os.path.exists(coding_csv):
+        questions_df = pd.read_csv(coding_csv)
+        questions_list = questions_df.to_dict(orient='records')
+        random.shuffle(questions_list)  # Randomize questions
+
+        start_time = core.getTime()
+        while core.getTime() - start_time < trial_duration and questions_list:
+            question = questions_list.pop(0)  # Get the next question
+            question_text = question['question']
+            question_id = question['id']
+            question_options = [question['option_a'],question['option_b'],question['option_c'],question['option_d']]
+            response = display_question_with_text_options(win, trial_duration, question_id, question_text ,question_options ,global_start_time)
+            responses.extend(response)
+
+            if not questions_list:  # All questions answered, break out of the loop
+                break
     else:
-        log_message(f"Programming CSV not found: {programming_csv}")
+        log_message(f"SA questions CSV not found: {coding_csv}")
     return responses
 
 def spatial_abilities_flow(win, image_bank_path, sa_csv, trial_duration,global_start_time):
@@ -273,19 +340,19 @@ def spatial_abilities_flow(win, image_bank_path, sa_csv, trial_duration,global_s
 def psychopy_process(subject_id, resources_path, results_path, start_time, execution_mode) :
     if execution_mode == "dev":
         IMAGE_DURATION = 1  # Initial image duration (seconds) BASAL
-        TRIAL_DURATION_ARITHMETIC = 5  # Duration for each arithmetic cycle (seconds)
-        BREAK_DURATION = 2  # Duration of the break between arithmetic cycles (seconds)
+        TRIAL_DURATION_ARITHMETIC = 15  # Duration for each arithmetic cycle (seconds)
+        BREAK_DURATION = 1  # Duration of the break between arithmetic cycles (seconds)
         NUM_CYCLES = 1  # Number of cycles arithmetic cycles
         CYCLE_TYPES = ['add', 'substraction', 'multiplication', 'division']  # Order of question types for Arithmetic cycles
-        PROGRAMMING_DURATION = 5  # Duration for the programming cycle (seconds)
-        TRIAL_DURATION_SA = 5  # Duration for each trial cycle (seconds) for Spatial abilities cycle 
+        PROGRAMMING_DURATION = 15  # Duration for the programming cycle (seconds)
+        TRIAL_DURATION_SA = 15  # Duration for each trial cycle (seconds) for Spatial abilities cycle 
         MATH_QUESTION_CSV = f'{resources_path}math_test.csv'  # Path to the arithmetic QUESTIONS
         BASAL_1_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal.png'  # Path to the initial image BASAL
         BASAL_2_IMAGE_PATH = f'{resources_path}image_bank/1x/estado_basal_ojos_abiertos.png'  # Path to the initial image BASAL
         SA_QUESTION_CSV = f'{resources_path}sa.csv'  # Path to the SA questions CSV
         PROGRAMMING_CSV = f'{resources_path}coding_questions.csv'  # Path to the programming questions CSV file
         image_bank_path = f'{resources_path}image_bank/1x/'
-        interstage_break = 3
+        interstage_break = 1
     elif execution_mode =="prod":
         IMAGE_DURATION = 60 # Initial image duration (seconds) BASAL
         TRIAL_DURATION_ARITHMETIC = 120  #120  Duration for each arithmetic cycle (seconds)

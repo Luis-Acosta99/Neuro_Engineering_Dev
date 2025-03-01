@@ -17,9 +17,9 @@ import time
 #---------------------------------------------------------------------------------------------
 # --- Parameters ---
 subject_id = "test_subject_ac_demo"
-resources_path = 'C:/Users/luisf/git_projects/unicorn_v2/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/'  # Path to the arithmetic QUESTIONS
-results_path = 'C:/Users/luisf/git_projects/unicorn_v2/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/results/' # Path to save the data
-execution_mode = 'dev' # 'dev' or 'prod'
+resources_path = 'C:/Users/luisf/git_projects/new_questions/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/resources/'  # Path to the arithmetic QUESTIONS
+results_path = 'C:/Users/luisf/git_projects/new_questions/Neuro_Engineering_Dev/neuro_education/unicorn_hybrid_black/results/' # Path to save the data
+execution_mode = 'demo' # 'demo' or 'prod'
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
@@ -61,6 +61,7 @@ if __name__ == '__main__':
     p1 = mup.Process(target=upc.unicorn_process, args=(subject_id, 
                                                        results_path,
                                                        start_time))
+    
     p2 = mup.Process(target=psy_ui.psychopy_process, args=(subject_id,
                                                            resources_path,
                                                            results_path,

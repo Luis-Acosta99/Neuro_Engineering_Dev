@@ -1,16 +1,26 @@
-﻿id,question
-C1,He programado por más de 3 años
-C2,"Entiendo conceptos como Clases, Herencia, y Sobrecarga de Metodos"
-C3,"He programado con más de 1 de los siguientes lenguajes: C++, C#, Java, Python"
-C4,He diseñado estructuras de datos en el pasado
-C5,Me interesa el analisis de datos o la ciencia de datos
-C6,"Domino la logica condicional (for, while, if)"
-C7,Puedo debuggear mi código sin necesidad de Chat-GPT
-C8,Desarrollo proyectos de programación adicionales a lo que se me pide en las clases
-C9,Tengo cuenta de git hub o alguna plataforma similar
-C10,Conozco los comandos bash básicos para manejar archivos
-C11,Estoy familiarizado con la programación orientada a objetos
-C12,Conozco la diferencia entre una clase y una función
-C13,"He usado listas, arrays, o estructuras anidadas al manejar informacion al programar"
-C14,"Conozco las diferencias entre información estructurada, semi estructurada, y no-estructurada"
-C15,Se me dificultan en general los proyectos que involucran programar
+﻿id,question,option_a,option_b,option_c,option_d,answer
+a1,Una matriz de dimensiones MxN tiene:,"M filas, N columnas","N filas, M columnas",Ambas,Ninguna,a
+a2,Para un vector x=[...] ¿Cómo se indexaría el tercer elemento de x?,x[1],x[3],x[-3],x[0],b
+a3,"Si X es un vector de tamaño N, ¿cuál es el índice del último elemento?",N+3,N,0,Ninguna,b
+a4,¿Cómo indexarías el elemento en la segunda fila y tercera columna de una matriz Y?,"Y[2,3]","Y[3,2]","Y[1,2]","Y[0,0]",a
+a5,"Dado un tensor de dimensiones [X, Y, Z] , ¿qué representa el primer índice en la notación tensor[i, j, k]?",La profundidad (eje Z),La fila (eje Y),La capa o matriz en la tercera dimensión (eje X),El número total de elementos,c
+a6,"Si T es un tensor de dimensiones 3x4x5, ¿cuántos elementos tiene en total?",12,20,60,100,c
+b1,"En python, usando numpy, ¿Qué hace np.sum(arr, axis=0) en un array 2D?",Suma los elementos fila por fila,Suma los elementos columna por columna,Suma todos los elementos del array,Retorna el mismo array sin cambios,b
+b2,"En python, usando numpy, Si arr es un array 3D de tamaño 3x4x5, ¿cuál es el tamaño de np.mean(arr, dim=2)?",3x4,4x5,3x5,3x4x5,a
+b3,"En python, usando numpy, si arr es un array 2D de tamaño 3x4, ¿cuál es el resultado de np.mean(arr, ndim=1)?",Un array de tamaño 333 con el promedio de cada fila,Un array de tamaño 444 con el promedio de cada columna,Un escalar con el promedio total,Un array de tamaño 3x4,a
+c1,"Dado un vector A = [1, 2, 3] y un vector B = [4, 5, 6], ¿cuál es el resultado de A + B?","[5, 7, 9]","[1, 2, 3, 4, 5, 6]","[[5, 7, 9]]",No se puede realizar la operación,a
+c2,"Si X = [2, 4, 6], ¿qué resultado tiene X * 3?","[6, 12, 18]","[[2, 4, 6], [2, 4, 6], [2, 4, 6]]","6, 12, 18","[2, 4, 6, 2, 4, 6, 2, 4, 6]",a
+c3,"Si M es una matriz de tamaño 3x4 y N es una matriz de tamaño 4x2, ¿qué tamaño tendrá la matriz resultante de M * N, suponiendo que la operación es un producto matricial?",3x2,4x4,3x4,4x2,a
+c4,"Si M y N son matrices de igual tamaño, ¿qué operación realiza M * N si la multiplicación es elemento a elemento?",Producto matricial,Multiplicación de cada elemento de M con el correspondiente en N,Suma de los elementos de M con los de N,No se puede hacer,b
+c5,¿Cuál es el resultado de sumar dos matrices de tamaño 3x4x5?,Una matriz de tamaño 3x4x5,Una matriz de tamaño 4x5,Una matriz de tamaño 3x5,Una matriz de tamaño5x3x4,a
+c6,"Si se toma la traspuesta de cada matriz XxYxZ en una matriz 3D de tamaño XxYxZ, ¿cuál es el tamaño del resultado?",X x Z x Y,Z x Y x X,Y x Z x X,X x Y x Z,a
+c7,¿Qué condición debe cumplirse para que una matriz 3D de tamaño PxQxR pueda multiplicarse con otra de tamaño RxS?,Q y R deben ser iguale,P y S deben ser iguales,R en la primera debe coincidir con R en la segunda,R en la primera debe coincidir con S en la segunda,d
+d1,Un mapa de calor representa una matriz de valores numéricos con:,Colores que indican la magnitud de los valores,Puntos dispersos en un plano cartesiano,Barras de diferentes alturas,Líneas conectando puntos,a
+d2,"Si se tiene una matriz A de tamaño MxN con valores en un rango amplio, ¿qué técnica puede mejorar su visualización en un mapa de calor?",Normalización de los valores,Representarla como un gráfico de líneas,Aplicar un filtro de suavizado,Convertirla en un vector 1D,d
+d3,¿Cuál de las siguientes técnicas se usa para representar una matriz tridimensional gráficamente?,Un gráfico de superficie,Un gráfico de dispersión 3D,Un mapa de calor en diferentes cortes,Todas las anteriores,d
+d4,"En la visualización de una matriz 3D, ¿qué se entiende por proyección ortogonal?",La representación de la matriz en 2D tomando cortes en diferentes planos,Un histograma con las frecuencias de los valores,Una rotación de la matriz sin modificar sus valores,La conversión de la matriz en un vector 1D,a
+e1,"En un diagrama de bloques de un sistema de control, ¿qué representa el bloque de retroalimentación?",La salida que se usa para ajustar la entrada,Un error en el sistema,Un módulo de procesamiento independiente,Un componente externo sin conexión con el sistema,a
+e2,"En un diagrama de bloques, ¿cómo se representa un sistema o subsistema?",Con un rectángulo,Con un círculo,Con un rombo,Con una flecha,a
+e3,¿Qué símbolo representa un inicio o fin en un diagrama de flujo?,Un óvalo,Un rectángulo,Un rombo,Un hexágono,a
+e4,"En un diagrama de flujo, un rectángulo indica:",Una acción o proceso,Un punto de decisión,Una conexión entre pasos,Un inicio o fin,a
+e5,¿En qué situación sería más útil un diagrama de flujo en lugar de un diagrama de bloques?,Cuando se necesita representar un algoritmo paso a paso,Cuando se diseñan los componentes de un sistema eléctrico,Cuando se analizan relaciones entre sistemas independientes,Cuando se describen los módulos de un programa de software,a
