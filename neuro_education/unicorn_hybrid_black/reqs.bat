@@ -15,7 +15,6 @@ call %VENV_DIR%\Scripts\activate.bat
 pip install numpy==1.23.0
 pip install pandas==1.4.3
 pip install psychopy==2022.2.0
-pip install python-vlc==3.0.11115
 
 :: Step 4: Uninstall library A
 pip uninstall -y numpy
