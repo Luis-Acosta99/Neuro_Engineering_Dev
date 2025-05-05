@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "clever-seat-362421",
+    "private_key_id": "0f8a77a5795c6fb8cd07c7092a3dba61feccddce",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIz7RXq9z85xzy\ny63enmhGDdMc85Qb0rnGyKJK7Taq9dpnswkEVI00cdYnBlXcfaH/hCY+pOrOcvlV\nV3vXxSaOY+WxU9Ij5DOVVphhXdyx8OG0ab1R0fUQybwCaDVNJ3hF59PEZsd7yahc\nF+DoIHpTqbZtJ/GFOtdQq8HZmSf6nJ8qGT4kW6190CjEV3Q0EK+SRPzBLS+g8RKf\nspFAg/RGdPdcnRQP3LkD+R4/qDmFlMTli3/ch6zOsjKIDMHIrDmLbuWd7LYonGVE\noF6XOmm0ZyiLrX2DtffMDXRltnZYTalI+/Pio/qEzPnnX1eztxJKk/eHHyw8Ls/p\n9WYVQaaBAgMBAAECggEAWNkRVWL8pUcKV2CH3sIep7QxLpOU+dR8DvgxWk5nTC/4\nAL7FpA1W5pfhZSXX8nUBqqCJHVlxbIORTtGkwTyBCSoo9BL+nJO4wP/t7tKNNYu7\nCUxpj9yB/foL/dKmlqr6e4+Nck35QAtiutBz2bCY/xBNXzF3mneE0bQU0laByk8e\nN1Wt1DXuKIkyacS6bC0ZkDwgHq4YIxEVijJ5KTLyLBPhMq33nJQacRyntanWY9po\nyhEKboAORbMm0HYiI9GS1ts26C6NXjku67dhZvTuQn2KrH5Hx3PUrfUg6nUdG1+a\nFz23j+C325LjYvkoGu/WfNhUST//2CTvMZrJuW3YOwKBgQDj/+5TVFOgzwhjqtnP\neu9aZh6s80ovNJkc+bw3e3s6E7hIrD4crSH/gcKjGwYlD8bt9ZDumT3ZyBRpnh9K\n45U2Sw9/O9cxWmI4eFOEC7edz3vB/a7uVCLfY/HPFpakf21d10DAUMjIeYpbleWC\nNL5jNCPG4WeDIPQRLnHgMkKO+wKBgQDheP/l745ntfobX5tQmsgRiaFSl2YYcu/H\n0PdwFkP8g6+91qDjJ4bnmePxi7YtiUlH0h4LnmeTEH3q7NdtXoNLcsil/FRtSJrr\nB6cPNHP8B1pgFBs9v5CEJiRaFpS4JacV2fAB4ZpcNiJoTkiyicGRPIJOJcdmtrDU\nZu02WPN3swKBgQCy7d8zNjKLOO70iNh2o5vD7fCU+jl14mlm+/Zh9F44rdEp90Kn\nbpgH1OXS6xpfa4pKpTUgitKnXwXl/VnBg+lNuopm56dx6+S5PHUOY8Ot7W7KRzRJ\nhW34so7KXofKgNZrlsoSI1PvQLL8PR7omEvxvrF1GuAJYIsqELD9qXPikQKBgHQR\nfuIWPN+krTi0Mdb/puhoSjSjHXqOiGL7brUzsRHnlGuMdkwZR/gnn1Dz0/eDCcdA\nIhlnFPh+7+Mkww1ZLwuC7kmMKMYNLzq4OMa6AM8H1f1JvHBAEhwFKod5wls9ftLf\n2w6M3ZKEh5fcXM4T3iJu3MFv70Mv3r2osopcphDDAoGAFLR0f+cPnuNZSXruPsio\npzciMWy2vzKBRHCh/UlhobjWgkXf+d4sPKg7HQui54BWrQ/tUVK1fS6tkl7Llr4N\nIn9saHUb9XgYASDx8SX9vgdzRgidUQjV39v9AfDN4oEmPMXjj/9axCYAr4MOAPRw\ntLVNBuuBVqzVXH19p3DN92c=\n-----END PRIVATE KEY-----\n",
+    "client_email": "neuroeducationsa@clever-seat-362421.iam.gserviceaccount.com",
+    "client_id": "102817116288367119485",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/neuroeducationsa%40clever-seat-362421.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  
