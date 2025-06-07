@@ -74,7 +74,7 @@ class eeg:
             verbose=False
         )
     
-    def export_to_bids(self, bids_root, subject_id='01', session='01', task='rest', run='01'):
+    def export_to_bids(self, bids_root, subject_id='01', session='01', task='experiment', run='01'):
         bids_path = BIDSPath(
             root=bids_root,
             subject=subject_id,
@@ -85,11 +85,11 @@ class eeg:
         )
 
         write_raw_bids(
-            raw=self.eeg_raw,
+            raw=self.current_eeg,
             allow_preload=True,
             bids_path=bids_path,
             overwrite=True,
-            format='BrainVision'  # recommended format for EEG
+            format='EEGLAB'  # recommended format for EEG
         )
 
         print(f"BIDS export complete at: {bids_path.fpath.parent}")
